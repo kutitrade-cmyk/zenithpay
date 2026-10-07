@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Zenith Pay Digital Banking</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        zenith: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scan-line': 'scanLine 2.5s ease-in-out infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        scanLine: {
+                            '0%, 100%': { top: '0%' },
+                            '50%': { top: '90%' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.80);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.60);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-emerald {
+            box-shadow: 0 0 40px -5px rgba(16, 185, 129, 0.25);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 40px -5px rgba(6, 182, 212, 0.25);
+        }
+        .otp-input:focus {
+            box-shadow: 0 0 0 2px #10b981;
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-zenith-500 selection:text-slate-950 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Background Ambient Glow Effects -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-zenith-500/10 rounded-full blur-[140px]"></div>
+        <div class="absolute bottom-0 right-0 w-[700px] h-[700px] bg-cyan-500/10 rounded-full blur-[160px]"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[180px]"></div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="relative z-10 flex-1 grid lg:grid-cols-12 min-h-screen">
+
+        <!-- Left Side: Hero Brand Showcase (Desktop Only) -->
+        <div class="hidden lg:flex lg:col-span-5 xl:col-span-5 bg-slate-900/40 border-r border-slate-800/80 p-12 flex-col justify-between relative overflow-hidden">
+
+            <!-- Background Grid Pattern -->
+            <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+
+            <!-- Top Header Logo -->
+            <div class="relative z-10 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-zenith-600 via-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-zenith-500/20 group-hover:scale-105 transition-transform">
+                        Z
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1">
+                            ZENITH<span class="text-zenith-400">PAY</span>
+                        </span>
+                        <span class="text-[9px] tracking-widest text-slate-400 font-semibold uppercase -mt-1">Institutional Portal</span>
+                    </div>
+                </a>
+
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zenith-500/10 border border-zenith-500/20 text-xs text-zenith-300 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-zenith-400 animate-ping"></span>
+                    <span>System Online</span>
+                </div>
+            </div>
+
+            <!-- Middle Animated Graphic & Value Prop -->
+            <div class="relative z-10 space-y-8 my-auto py-12">
+
+                <!-- Floating Interactive Security Badge -->
+                <div class="glass-panel p-6 rounded-3xl border border-slate-700/60 shadow-2xl space-y-4 glow-emerald animate-float">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Quantum Encryption Active</h4>
+                                <p class="text-[11px] text-slate-400">TLS v1.3 &bull; Hardware Key Standard</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-lock text-zenith-400 text-sm"></i>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Access high-yield vaults, global multi-currency settlements, and real-time zero-fee treasury transfers.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2 text-[11px]">
+                        <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-check text-zenith-400"></i>
+                            <span class="text-slate-300 font-medium">SOC2 Certified</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-check text-zenith-400"></i>
+                            <span class="text-slate-300 font-medium">FDIC Protected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial Quote Slider / Feature Highlight -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-1 text-amber-400 text-xs">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span class="text-slate-400 text-[11px] font-semibold ml-2">4.9/5 from 80,000+ reviews</span>
+                    </div>
+                    <p class="text-base font-semibold text-slate-200 italic">
+                        "Zenith Pay has transformed our global treasury operations. Instant settlements across 40+ currencies with effortless passkey security."
+                    </p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-zenith-400">
+                            EK
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Elena Rostova</p>
+                            <p class="text-[10px] text-slate-400">VP of Finance, Apex Global Systems</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Left Footer -->
+            <div class="relative z-10 border-t border-slate-800/80 pt-6 flex items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 Zenith Pay Inc.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-slate-300 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-slate-300 transition-colors">Security</a>
+                    <a href="#" class="hover:text-slate-300 transition-colors">Compliance</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Authentication Panel -->
+        <div class="lg:col-span-7 xl:col-span-7 p-6 sm:p-12 lg:p-16 flex flex-col justify-between relative">
+
+            <!-- Top Right Bar -->
+            <div class="flex items-center justify-between mb-8">
+                <!-- Mobile Brand Header -->                    <a href="index.html" class="flex lg:hidden items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-zenith-500 flex items-center justify-center text-slate-950 font-black text-sm">Z</div>
+                        <span class="text-base font-bold text-white tracking-tight">ZENITH<span class="text-zenith-400">PAY</span></span>
+                    </a>
+
+                    <a href="dashboard.html" class="hidden lg:inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-xs font-semibold text-slate-200 hover:bg-slate-800 hover:text-white transition-all">
+                        <i class="fa-solid fa-gauge-high text-[10px]"></i>
+                        Dashboard
+                    </a>
+
+                    <div class="ml-auto flex items-center gap-4">
+                    <span class="text-xs text-slate-400 hidden sm:inline">Don't have an account?</span>
+                    <a href="register.html" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-zenith-400 hover:text-zenith-300 hover:bg-slate-800 transition-all">
+                        Create Account
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Auth Card Window -->
+            <div class="max-w-md mx-auto w-full space-y-8 my-auto">
+
+                <!-- Auth Title -->
+                <div class="text-center sm:text-left space-y-2">
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight">Welcome Back</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Select your preferred authentication method to access your accounts.</p>
+                </div>
+
+                <!-- Authentication Method Switcher Tabs -->
+                <div class="grid grid-cols-4 gap-1 p-1.5 bg-slate-900/90 border border-slate-800 rounded-2xl text-[11px] font-bold text-slate-400">
+                    <button onclick="switchTab('pass')" id="tab-pass" class="tab-btn py-2.5 rounded-xl bg-zenith-500 text-slate-950 font-bold transition-all flex items-center justify-center gap-1.5 shadow">
+                        <i class="fa-solid fa-key"></i>
+                        <span class="hidden sm:inline">Password</span>
+                    </button>
+                    <button onclick="switchTab('passkey')" id="tab-passkey" class="tab-btn py-2.5 rounded-xl hover:text-white transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-fingerprint"></i>
+                        <span class="hidden sm:inline">Passkey</span>
+                    </button>
+                    <button onclick="switchTab('qr')" id="tab-qr" class="tab-btn py-2.5 rounded-xl hover:text-white transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <span class="hidden sm:inline">QR Scan</span>
+                    </button>
+                    <button onclick="switchTab('sso')" id="tab-sso" class="tab-btn py-2.5 rounded-xl hover:text-white transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-building"></i>
+                        <span class="hidden sm:inline">SSO</span>
+                    </button>
+                </div>
+
+                <!-- TAB 1: Standard Password Login -->
+                <div id="view-pass" class="space-y-5">
+                    <form onsubmit="handlePassLogin(event)" class="space-y-4 text-xs">
+
+                        <!-- Email Input Field -->
+                        <div class="space-y-1.5">
+                            <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Email or Account ID</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <input type="email" id="login-email" required autocomplete="username" placeholder="name@company.com" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                            </div>
+                        </div>
+
+                        <!-- Password Input Field -->
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Security Password</label>
+                                <button type="button" onclick="openModal('forgotModal')" class="text-[11px] font-semibold text-zenith-400 hover:text-zenith-300 transition-colors">Forgot Password?</button>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <i class="fa-solid fa-lock"></i>
+                                </div>
+                                <input type="password" id="login-password" required autocomplete="current-password" class="w-full pl-10 pr-10 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                                <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300">
+                                    <i class="fa-solid fa-eye" id="toggle-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Remember Device Toggle -->
+                        <div class="flex items-center justify-between pt-1">
+                            <label class="flex items-center gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-800 text-zenith-500 focus:ring-zenith-500 focus:ring-offset-slate-950">
+                                <span class="text-xs text-slate-300 font-medium">Remember this hardware device for 30 days</span>
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="btn-pass-submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-zenith-500 to-zenith-600 text-slate-950 font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-zenith-500/20 flex items-center justify-center gap-2 group">
+                            <span>Authenticate Account</span>
+                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </form>
+
+                    <!-- Quick OAuth Divider -->
+                    <div class="relative flex py-2 items-center">
+                        <div class="flex-grow border-t border-slate-800"></div>
+                        <span class="flex-shrink mx-4 text-[10px] font-bold uppercase text-slate-500 tracking-wider">Or Quick Connect With</span>
+                        <div class="flex-grow border-t border-slate-800"></div>
+                    </div>
+
+                    <!-- Social / Single-Tap OAuth Buttons -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="triggerQuickAuth('Google Enterprise')" class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-200 flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-brands fa-google text-rose-400"></i>
+                            <span>Google Workspace</span>
+                        </button>
+                        <button onclick="triggerQuickAuth('Apple ID Vault')" class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-200 flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-brands fa-apple text-slate-100 text-sm"></i>
+                            <span>Apple Passkey</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Biometric / Passkey Login -->
+                <div id="view-passkey" class="hidden space-y-6 text-center py-4">
+                    <div class="glass-panel p-8 rounded-3xl border border-slate-800 space-y-6">
+
+                        <!-- Interactive Scanner Ring -->
+                        <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full border-2 border-dashed border-zenith-500/40 animate-spin-slow"></div>
+                            <div class="w-20 h-20 rounded-2xl bg-zenith-500/10 border border-zenith-500/30 text-zenith-400 flex items-center justify-center text-3xl shadow-inner cursor-pointer hover:scale-105 transition-transform" onclick="startBiometricScan()">
+                                <i class="fa-solid fa-fingerprint text-4xl" id="passkey-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-white" id="passkey-status-title">Touch ID / Face ID Scanner</h3>
+                            <p class="text-xs text-slate-400" id="passkey-status-desc">Click fingerprint sensor or use your security key (YubiKey).</p>
+                        </div>
+
+                        <button onclick="startBiometricScan()" id="btn-scan-biometric" class="w-full py-3.5 rounded-xl bg-zenith-500 text-slate-950 font-bold text-xs hover:bg-zenith-400 transition-all shadow-lg shadow-zenith-500/20">
+                            Scan Biometric Passkey
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Compatible with WebAuthn, FIDO2, Apple Touch ID, Face ID, and Android Biometrics.
+                    </p>
+                </div>
+
+                <!-- TAB 3: QR Code Quick Scan -->
+                <div id="view-qr" class="hidden space-y-6 text-center py-2">
+                    <div class="glass-panel p-8 rounded-3xl border border-slate-800 space-y-5">
+
+                        <!-- Dynamic Simulated Animated QR Code Box -->
+                        <div class="relative w-48 h-48 mx-auto bg-white p-3 rounded-2xl shadow-2xl overflow-hidden group">
+                            <!-- Scanning Laser Line -->
+                            <div class="absolute left-0 right-0 h-1 bg-zenith-500 shadow-[0_0_15px_#10b981] animate-scan-line z-20"></div>
+
+                            <!-- Vector Simulated QR Graphic -->
+                            <div class="w-full h-full bg-slate-950 rounded-xl p-2 flex flex-col justify-between relative z-10">
+                                <div class="flex justify-between">
+                                    <div class="w-10 h-10 border-4 border-zenith-400 bg-slate-900 rounded-sm"></div>
+                                    <div class="w-10 h-10 border-4 border-zenith-400 bg-slate-900 rounded-sm"></div>
+                                </div>
+                                <div class="grid grid-cols-5 gap-1 p-1 my-auto">
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                    <div class="h-2 bg-slate-800 rounded"></div>
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                    <div class="h-2 bg-slate-800 rounded"></div>
+                                    <div class="h-2 bg-slate-800 rounded"></div>
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                    <div class="h-2 bg-slate-800 rounded"></div>
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                    <div class="h-2 bg-zenith-400 rounded"></div>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <div class="w-10 h-10 border-4 border-zenith-400 bg-slate-900 rounded-sm"></div>
+                                    <div class="w-6 h-6 bg-zenith-400 rounded-sm flex items-center justify-center text-slate-950 font-black text-[9px]">Z</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-white">Scan with Zenith Mobile App</h3>
+                            <p class="text-xs text-slate-400">Open mobile app <i class="fa-solid fa-arrow-right text-[10px]"></i> Security <i class="fa-solid fa-arrow-right text-[10px]"></i> Web QR Scanner</p>
+                        </div>
+
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] text-slate-400 font-mono">
+                            <i class="fa-solid fa-arrows-rotate animate-spin text-zenith-400"></i>
+                            <span>Refreshes in <strong id="qr-timer" class="text-white">42s</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Enterprise SSO -->
+                <div id="view-sso" class="hidden space-y-5">
+                    <form onsubmit="handleSSOLogin(event)" class="space-y-4 text-xs">
+                        <div class="space-y-1.5">
+                            <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Work Domain or Workspace ID</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <i class="fa-solid fa-globe"></i>
+                                </div>
+                                <input type="text" id="sso-domain" required placeholder="acme-corp.zenithpay.com" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 font-mono">
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-400 space-y-2">
+                            <div class="flex items-center gap-2 text-white font-bold text-xs">
+                                <i class="fa-solid fa-building-shield text-cyan-400"></i>
+                                <span>Supported Identity Providers</span>
+                            </div>
+                            <p class="text-[11px] leading-relaxed">
+                                Okta, Azure AD / Entra ID, Ping Identity, OneLogin, and custom SAML 2.0 / OIDC integrations.
+                            </p>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-cyan-500 text-slate-950 font-bold text-sm hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/20">
+                            Continue to Identity Provider
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Bottom Live Security Session Footer -->
+            <div class="mt-8 border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-slate-500">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Session IP: <strong class="text-slate-400 font-mono">192.168.1.104</strong> (Encrypted)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="hover:text-slate-300 flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Homepage
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 2FA / OTP Verification Modal Window -->
+    <div id="mfaModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-800 relative shadow-2xl space-y-6">
+
+            <button onclick="closeModal('mfaModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-xl font-bold mx-auto">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">2-Factor Authentication</h3>
+                <p class="text-xs text-slate-400">Enter the 6-digit verification code sent to your Zenith Authenticator App.</p>
+            </div>
+
+            <!-- 6-Digit OTP Boxes -->
+            <div class="flex justify-center gap-2 sm:gap-3 py-2">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 0)">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 1)">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 2)">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 3)">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 4)">
+                <input type="text" maxlength="1" class="otp-input w-11 h-12 text-center text-xl font-bold font-mono rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500" onkeyup="moveOtpFocus(this, 5)">
+            </div>
+
+            <button onclick="completeMfaVerification()" class="w-full py-4 rounded-xl bg-gradient-to-r from-zenith-500 to-zenith-600 text-slate-950 font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-zenith-500/20">
+                Verify &amp; Launch Dashboard
+            </button>
+
+            <div class="text-center text-xs text-slate-500">
+                Didn't get a code? <button onclick="triggerToast('New 2FA code dispatched!')" class="text-zenith-400 font-semibold hover:underline">Resend via SMS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal Window -->
+    <div id="forgotModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-800 relative shadow-2xl space-y-5">
+
+            <button onclick="closeModal('forgotModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl font-bold mx-auto">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Reset Password</h3>
+                <p class="text-xs text-slate-400">Enter your registered email address to receive a secure recovery magic link.</p>
+            </div>
+
+            <form onsubmit="handleForgotReset(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 uppercase mb-1">Email Address</label>
+                    <input type="email" required placeholder="alex@company.com" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500">
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-sm hover:bg-cyan-400 transition-all">
+                    Send Recovery Link
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Live Toast Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        function switchTab(mode) {
+            const views = ['pass', 'passkey', 'qr', 'sso'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const tab = document.getElementById(`tab-${v}`);
+                if (el) el.classList.add('hidden');
+                if (tab) {
+                    tab.className = "tab-btn py-2.5 rounded-xl hover:text-white transition-all flex items-center justify-center gap-1.5 text-slate-400";
+                }
+            });
+
+            const activeView = document.getElementById(`view-${mode}`);
+            const activeTab = document.getElementById(`tab-${mode}`);
+
+            if (activeView) activeView.classList.remove('hidden');
+            if (activeTab) {
+                activeTab.className = "tab-btn py-2.5 rounded-xl bg-zenith-500 text-slate-950 font-bold transition-all flex items-center justify-center gap-1.5 shadow";
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const field = document.getElementById('login-password');
+            const eye = document.getElementById('toggle-eye');
+            if (field.type === 'password') {
+                field.type = 'text';
+                eye.className = 'fa-solid fa-eye-slash';
+            } else {
+                field.type = 'password';
+                eye.className = 'fa-solid fa-eye';
+            }
+        }
+
+        /* Modal Controllers */
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('hidden');
+        }
+
+        function startBiometricScan() {
+            const icon = document.getElementById('passkey-icon');
+            const title = document.getElementById('passkey-status-title');
+            const btn = document.getElementById('btn-scan-biometric');
+
+            if (icon) icon.className = "fa-solid fa-spinner animate-spin text-zenith-400 text-4xl";
+            if (title) title.innerText = "Verifying Touch/Face ID...";
+            if (btn) btn.innerText = "Communicating with Hardware Key...";
+
+            setTimeout(() => {
+                if (icon) icon.className = "fa-solid fa-circle-check text-zenith-400 text-4xl animate-bounce";
+                if (title) title.innerText = "Biometric Match Confirmed!";
+                triggerToast("Passkey Verified! Launching Zenith Dashboard...");
+                setTimeout(() => {
+                    openModal('mfaModal');
+                }, 1000);
+            }, 2000);
+        }
+
+        function moveOtpFocus(elem, index) {
+            const inputs = document.querySelectorAll('.otp-input');
+            if (elem.value.length >= 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        }
+
+        function completeMfaVerification() {
+            closeModal('mfaModal');
+            launchDashboard("2FA Authentication Succeeded. Welcome back!");
+        }
+
+        let qrTime = 42;
+        setInterval(() => {
+            const elem = document.getElementById('qr-timer');
+            if (elem) {
+                qrTime--;
+                if (qrTime <= 0) qrTime = 45;
+                elem.innerText = `${qrTime}s`;
+            }
+        }, 1000);
+
+        /* Where a signed-in member lands. Relative so it also works when the
+           page is opened straight from the filesystem. */
+        function postAuthTarget() {
+            return window.authenticatedRole === "admin" ? "admin.html" : "dashboard.html";
+        }
+
+        /* POST credentials to the JSON API. Same-origin keeps the session
+           cookie, which is what makes /dashboard serve the page instead of
+           bouncing back to this one. */
+        async function postCredentials(path, payload) {
+            const res = await fetch(path, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            let body = null;
+            try { body = await res.json(); } catch (_) { body = null; }
+            if (!res.ok) {
+                const message = (body && body.error) ? body.error : `Sign-in failed (HTTP ${res.status}).`;
+                triggerToast(message, "error");
+                return null;
+            }
+            return body || {};
+        }
+
+        /* The real sign-in: verify against /api/auth/login, which sets the
+           session cookie, then go straight to the dashboard. */
+        async function handlePassLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-pass-submit');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Authenticating Credentials...`;
+
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const data = await postCredentials("/api/auth/login", { email, password });
+                if (!data) return;
+                window.authenticatedRole = data.user.role;
+                launchDashboard("Signed in. Welcome back!");
+            } catch (err) {
+                console.error("[login]", err);
+                triggerToast("Could not reach the server. Check your connection.", "error");
+            } finally {
+                btn.innerHTML = original;
+            }
+        }
+
+        /* Close any modal, confirm, then hand off to the dashboard. */
+        function launchDashboard(message) {
+            closeModal('mfaModal');
+            triggerToast(message || "Signed in. Welcome back!");
+            setTimeout(() => {
+                window.location.href = postAuthTarget();
+            }, 600);
+        }
+
+        function handleSSOLogin(e) {
+            e.preventDefault();
+            const domain = document.getElementById('sso-domain').value || 'acme-corp.zenithpay.com';
+            triggerToast(`Redirecting to ${domain} Enterprise SSO portal...`);
+        }
+
+        function handleForgotReset(e) {
+            e.preventDefault();
+            closeModal('forgotModal');
+            triggerToast("Password recovery link sent! Check your inbox.");
+        }
+
+        function triggerQuickAuth(provider) {
+            triggerToast(`Connecting via ${provider}... Redirecting...`);
+            setTimeout(() => {
+                openModal('mfaModal');
+            }, 1200);
+        }
+
+        function triggerToast(message, variant = "success") {
+            const container = document.getElementById('toast-container');
+            if (!container) return null;
+
+            const styles = {
+                success: { icon: 'fa-circle-check', colour: 'text-zenith-400' },
+                error: { icon: 'fa-circle-exclamation', colour: 'text-rose-400' },
+                info: { icon: 'fa-circle-info', colour: 'text-cyan-400' },
+            };
+            const style = styles[variant] || styles.success;
+
+            const toast = document.createElement('div');
+            toast.className = "glass-panel px-4 py-3 rounded-2xl border border-zenith-500/40 text-xs font-bold text-white shadow-2xl flex items-center gap-3 animate-bounce pointer-events-auto";
+            toast.innerHTML = `<i class="fa-solid ${style.icon} ${style.colour} text-sm"></i>`;
+            const text = document.createElement('span');
+            text.textContent = message;
+            toast.appendChild(text);
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+            return toast;
+        }
+    </script>
+</body>
+</html>

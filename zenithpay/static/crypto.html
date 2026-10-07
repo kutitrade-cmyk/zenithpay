@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Sandbox | Zenith Pay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="dashboard.html"><span class="brand-mark">Z</span> ZENITH<span class="brand-accent">PAY</span></a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="dashboard.html">Overview</a><a href="transfer.html">Transfer</a><a href="send.html">Send</a>
+            <a href="bills.html">Bills</a><a href="scheduled.html">Scheduled</a><a href="activity.html">Activity</a>
+            <a href="crypto.html" aria-current="page">Crypto</a><a href="settings.html">Settings</a>
+            <a id="admin-link" class="hidden" href="admin.html">Admin</a>
+        </nav>
+        <div class="header-actions"><a class="profile-link" href="settings.html"><img id="user-avatar" alt="" hidden><span id="user-name">Member</span></a><button id="btn-signout" class="button button-secondary">Sign out</button></div>
+    </header>
+    <main class="page-shell">
+        <div class="page-heading"><p class="eyebrow">MARKET</p><h1>Crypto</h1><p>Live USD reference prices with account-ledger buy and sell orders.</p></div>
+        <div class="notice"><strong>Live reference prices.</strong> Orders are recorded in your Zenith Pay ledger; they are not sent to an exchange, and no crypto wallet custody or withdrawal is provided.</div>
+        <p id="market-updated" class="field-hint" aria-live="polite"></p>
+        <section class="surface table-wrap"><table><thead><tr><th>Asset</th><th>Live USD price</th><th>Your balance</th></tr></thead><tbody id="market-rows"><tr><td colspan="3">Loading market…</td></tr></tbody></table></section>
+        <section class="trade-grid">
+            <form id="buy-form" class="surface form-stack">
+                <h2>Buy crypto</h2><label class="field-label" for="buy-symbol">Asset</label><select id="buy-symbol"></select>
+                <label class="field-label" for="buy-account">Pay from (USD)</label><select id="buy-account" required></select>
+                <label class="field-label" for="buy-amount">Spend amount (USD)</label><input id="buy-amount" type="number" min="0.01" step="0.01" required>
+                <button class="button button-primary" type="submit">Buy</button>
+            </form>
+            <form id="sell-form" class="surface form-stack">
+                <h2>Sell crypto</h2><label class="field-label" for="sell-symbol">Asset</label><select id="sell-symbol"></select>
+                <label class="field-label" for="sell-account">Deposit proceeds to (USD)</label><select id="sell-account" required></select>
+                <label class="field-label" for="sell-quantity">Quantity</label><input id="sell-quantity" type="number" min="0.00000001" step="0.00000001" required>
+                <button class="button button-primary" type="submit">Sell</button>
+            </form>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <script>
+        let market = {};
+        function coinOptions() {
+            return Object.entries(market).map(([symbol, asset]) => `<option value="${esc(symbol)}">${esc(asset.name)} (${esc(symbol)})</option>`).join("");
+        }
+        async function loadMarket() {
+            const data = await apiFetch("/crypto");
+            if (!data) return;
+            market = data.market;
+            const usdAccounts = data.accounts.filter((account) => account.currency === "USD");
+            const accountOptions = usdAccounts.map((account) => `<option value="${account.id}">${esc(account.nickname)} · ${centsToCurrency(account.balance_cents)}</option>`).join("");
+            for (const id of ["buy-symbol", "sell-symbol"]) document.getElementById(id).innerHTML = coinOptions();
+            for (const id of ["buy-account", "sell-account"]) {
+                document.getElementById(id).innerHTML = accountOptions || '<option value="">Open an active USD account first</option>';
+                document.getElementById(id).disabled = usdAccounts.length === 0;
+            }
+            document.getElementById("market-updated").textContent = `Prices from ${data.price_source}, updated ${formatDateTime(data.prices_updated_at)}.`;
+            document.getElementById("market-rows").innerHTML = Object.entries(market).map(([symbol, asset]) =>
+                `<tr><td><strong>${esc(asset.name)}</strong> <span class="muted">${esc(symbol)}</span></td><td>${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 8 }).format(Number(asset.price_usd))}</td><td>${(asset.quantity_units / 100000000).toFixed(8)} ${esc(symbol)}</td></tr>`
+            ).join("");
+        }
+        document.getElementById("buy-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const result = await apiFetch("/crypto/buy", { method: "POST", body: JSON.stringify({
+                symbol: document.getElementById("buy-symbol").value,
+                account_id: Number(document.getElementById("buy-account").value),
+                amount_cents: Math.round(Number(document.getElementById("buy-amount").value) * 100),
+            }) });
+            if (!result) return;
+            triggerToast(`Bought ${(result.quantity_units / 100000000).toFixed(8)} ${result.symbol} at $${result.price_usd}.`, "success");
+            event.target.reset(); await loadMarket();
+        });
+        document.getElementById("sell-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const result = await apiFetch("/crypto/sell", { method: "POST", body: JSON.stringify({
+                symbol: document.getElementById("sell-symbol").value,
+                account_id: Number(document.getElementById("sell-account").value),
+                quantity_units: Math.round(Number(document.getElementById("sell-quantity").value) * 100000000),
+            }) });
+            if (!result) return;
+            triggerToast(`Sold ${(result.quantity_units / 100000000).toFixed(8)} ${result.symbol} at $${result.price_usd}.`, "success");
+            event.target.reset(); await loadMarket();
+        });
+        loadUser();
+        loadMarket();
+    </script>
+</body>
+</html>

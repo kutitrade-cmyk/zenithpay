@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin overview | Zenith Pay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="dashboard.html"><span class="brand-mark">Z</span> ZENITH<span class="brand-accent">PAY</span></a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="admin.html" aria-current="page">Admin overview</a><a href="dashboard.html">Member dashboard</a>
+            <a href="activity.html">Activity</a><a href="crypto.html">Crypto sandbox</a><a href="settings.html">Settings</a>
+        </nav>
+        <div class="header-actions"><a class="profile-link" href="settings.html"><img id="user-avatar" alt="" hidden><span id="user-name">Admin</span></a><button id="btn-signout" class="button button-secondary">Sign out</button></div>
+    </header>
+    <main class="page-shell">
+        <div class="page-heading"><p class="eyebrow">ADMINISTRATION</p><h1>Platform overview</h1><p>Manage member account balances and review audited adjustments.</p></div>
+        <div id="admin-summary" class="summary-grid"></div>
+        <section class="surface">
+            <h2>Adjust account balance</h2>
+            <p class="field-hint">Every credit or debit requires a reason and creates an immutable audit entry and receipt.</p>
+            <form id="adjustment-form" class="adjustment-form">
+                <label class="field-label" for="adjust-account">Member account</label>
+                <select id="adjust-account" required></select>
+                <label class="field-label" for="adjust-direction">Action</label>
+                <select id="adjust-direction"><option value="credit">Add funds</option><option value="debit">Remove funds</option></select>
+                <label class="field-label" for="adjust-amount">Amount (cents in account currency)</label>
+                <input id="adjust-amount" type="number" min="1" max="10000000000" step="1" required>
+                <label class="field-label" for="adjust-reason">Audit reason</label>
+                <input id="adjust-reason" maxlength="200" required placeholder="Reason for this account adjustment">
+                <button class="button button-primary" type="submit">Record adjustment</button>
+            </form>
+        </section>
+        <section class="surface table-wrap"><h2>Members and accounts</h2><table><thead><tr><th>Member</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody id="admin-users"><tr><td colspan="4">Loading members…</td></tr></tbody></table></section>
+        <section class="surface table-wrap"><h2>Recent adjustments</h2><table><thead><tr><th>Date</th><th>Member</th><th>Account</th><th>Action</th><th>Amount</th><th>Reason</th><th>Receipt</th></tr></thead><tbody id="admin-adjustments"><tr><td colspan="7">No adjustments yet.</td></tr></tbody></table></section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <dialog id="receipt-dialog" class="receipt-dialog"><form method="dialog"><button class="button button-secondary receipt-close">Close</button></form><div id="receipt-content"></div><button id="receipt-print" class="button button-primary" type="button">Print receipt</button></dialog>
+    <script>
+        async function loadOverview() {
+            const data = await apiFetch("/admin/overview");
+            if (!data) return;
+            document.getElementById("admin-summary").innerHTML = [
+                ["Members", data.summary.users], ["Open accounts", data.summary.accounts], ["Transactions", data.summary.transactions],
+            ].map(([label, value]) => `<article class="surface summary-card"><span>${esc(label)}</span><strong>${Number(value).toLocaleString()}</strong></article>`).join("");
+            document.getElementById("admin-users").innerHTML = data.users.map((user) =>
+                `<tr><td>${esc(user.name)}</td><td>${esc(user.email)}</td><td>${esc(user.role)}</td><td>${esc(formatDateTime(user.created_at))}</td></tr>`
+            ).join("");
+            document.getElementById("adjust-account").innerHTML = data.accounts
+                .filter((account) => account.type !== "loan" && account.status === "active")
+                .map((account) => `<option value="${account.id}">${esc(account.user_name)} · ${esc(account.email)} · ${esc(account.nickname)} (${esc(account.currency)} ${centsToCurrency(account.balance_cents, account.currency)})</option>`)
+                .join("") || '<option value="">No active checking or savings accounts</option>';
+            document.getElementById("admin-adjustments").innerHTML = data.adjustments.map((entry) =>
+                `<tr><td>${esc(formatDateTime(entry.created_at))}</td><td>${esc(entry.affected_user_email)}</td><td>${esc(entry.account_nickname)}</td><td>${esc(entry.direction)}</td><td>${centsToCurrency(entry.amount_cents, entry.currency)}</td><td>${esc(entry.reason)}</td><td><button class="button button-secondary receipt-button" data-receipt="${entry.transaction_id}">Receipt</button></td></tr>`
+            ).join("") || '<tr><td colspan="7">No adjustments yet.</td></tr>';
+        }
+        document.getElementById("adjustment-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const result = await apiFetch("/admin/adjustments", { method: "POST", body: JSON.stringify({
+                account_id: Number(document.getElementById("adjust-account").value),
+                direction: document.getElementById("adjust-direction").value,
+                amount_cents: Number(document.getElementById("adjust-amount").value),
+                reason: document.getElementById("adjust-reason").value.trim(),
+            }) });
+            if (!result) return;
+            triggerToast(`Adjustment recorded. Receipt ${result.transaction.receipt_number}`, "success");
+            event.target.reset();
+            await loadOverview();
+        });
+        document.getElementById("admin-adjustments").addEventListener("click", (event) => {
+            const button = event.target.closest("[data-receipt]");
+            if (button) showReceipt(button.dataset.receipt);
+        });
+        document.getElementById("receipt-print").addEventListener("click", () => window.print());
+        async function showReceipt(id) {
+            const result = await apiFetch(`/transactions/${id}/receipt`);
+            if (!result) return;
+            const receipt = result.receipt;
+            document.getElementById("receipt-content").innerHTML =
+                `<p class="eyebrow">ZENITH PAY · TRANSACTION RECEIPT</p><h2>${esc(receipt.receipt_number)}</h2><p><strong>${esc(receipt.description)}</strong></p><p>${esc(receipt.direction.toUpperCase())} · ${centsToCurrency(receipt.amount_cents, receipt.account.currency)}</p><p>${esc(receipt.account.nickname)} · account ending ${esc(receipt.account.account_number_last4)}</p><p>Balance after: ${centsToCurrency(receipt.balance_after_cents, receipt.account.currency)}</p>${receipt.receipt_details && receipt.receipt_details.admin_email ? `<p>Admin adjustment by ${esc(receipt.receipt_details.admin_email)}</p>` : ""}<p>${esc(formatDateTime(receipt.created_at))}</p>`;
+            document.getElementById("receipt-dialog").showModal();
+        }
+        loadUser();
+        loadOverview();
+    </script>
+</body>
+</html>

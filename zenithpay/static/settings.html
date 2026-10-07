@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Settings | Zenith Pay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site.css">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="dashboard.html"><span class="brand-mark">Z</span> ZENITH<span class="brand-accent">PAY</span></a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="dashboard.html">Overview</a><a href="transfer.html">Transfer</a><a href="send.html">Send</a>
+            <a href="bills.html">Bills</a><a href="scheduled.html">Scheduled</a><a href="activity.html">Activity</a>
+            <a href="crypto.html">Crypto</a><a href="settings.html" aria-current="page">Settings</a>
+            <a id="admin-link" class="hidden" href="admin.html">Admin</a>
+        </nav>
+        <div class="header-actions"><a class="profile-link" href="settings.html"><img id="user-avatar" alt="" hidden><span id="user-name">Member</span></a><button id="btn-signout" class="button button-secondary">Sign out</button></div>
+    </header>
+    <main class="page-shell">
+        <div class="page-heading"><p class="eyebrow">YOUR ACCOUNT</p><h1>Profile settings</h1><p>Keep your profile up to date.</p></div>
+        <section class="surface settings-card">
+            <form id="profile-form" class="form-stack">
+                <div class="avatar-editor">
+                    <div class="avatar-preview" id="avatar-preview" aria-label="Profile image preview">M</div>
+                    <div><label class="field-label" for="avatar-file">Profile photo</label><input id="avatar-file" type="file" accept="image/png,image/jpeg,image/webp"><p class="field-hint">PNG, JPG, or WebP. Maximum 512 KB.</p></div>
+                </div>
+                <label class="field-label" for="profile-name">Full name</label>
+                <input id="profile-name" name="name" autocomplete="name" required maxlength="120">
+                <label class="field-label" for="profile-email">Email address</label>
+                <input id="profile-email" type="email" disabled>
+                <button class="button button-primary" type="submit">Save profile</button>
+            </form>
+        </section>
+    </main>
+    <div id="toast-container" class="toast-container"></div>
+    <script>
+        let avatarData = null;
+        async function loadProfile() {
+            const result = await apiFetch("/auth/me");
+            if (!result) return;
+            document.getElementById("profile-name").value = result.user.name;
+            document.getElementById("profile-email").value = result.user.email;
+            showPreview(result.user.avatar_data, result.user.name);
+        }
+        function showPreview(source, name) {
+            const preview = document.getElementById("avatar-preview");
+            preview.replaceChildren();
+            if (source) {
+                const image = document.createElement("img");
+                image.src = source;
+                image.alt = "Profile image";
+                preview.append(image);
+            } else {
+                preview.textContent = (name || "M").trim().charAt(0).toUpperCase();
+            }
+        }
+        document.getElementById("avatar-file").addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) { avatarData = null; return; }
+            if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 512 * 1024) {
+                triggerToast("Choose a PNG, JPG, or WebP image under 512 KB.", "error");
+                event.target.value = "";
+                return;
+            }
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                avatarData = String(reader.result);
+                showPreview(avatarData, document.getElementById("profile-name").value);
+            });
+            reader.addEventListener("error", () => triggerToast("Could not read this image.", "error"));
+            reader.readAsDataURL(file);
+        });
+        document.getElementById("profile-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const payload = { name: document.getElementById("profile-name").value.trim() };
+            if (avatarData) payload.avatar_data = avatarData;
+            const result = await apiFetch("/auth/profile", { method: "PATCH", body: JSON.stringify(payload) });
+            if (!result) return;
+            avatarData = null;
+            showPreview(result.user.avatar_data, result.user.name);
+            document.querySelectorAll("#user-name").forEach((element) => {
+                element.textContent = result.user.name;
+            });
+            const headerAvatar = document.getElementById("user-avatar");
+            if (headerAvatar && headerAvatar instanceof HTMLImageElement && result.user.avatar_data) {
+                headerAvatar.src = result.user.avatar_data;
+                headerAvatar.hidden = false;
+            }
+            document.getElementById("avatar-file").value = "";
+            triggerToast("Profile saved.", "success");
+        });
+        loadUser();
+        loadProfile();
+    </script>
+</body>
+</html>

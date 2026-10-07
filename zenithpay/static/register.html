@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open an Account | Zenith Pay Digital Banking</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        zenith: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.80);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.60);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-emerald {
+            box-shadow: 0 0 40px -5px rgba(16, 185, 129, 0.25);
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-zenith-500 selection:text-slate-950 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Background Ambient Glow Effects -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-zenith-500/10 rounded-full blur-[140px]"></div>
+        <div class="absolute bottom-0 right-0 w-[700px] h-[700px] bg-cyan-500/10 rounded-full blur-[160px]"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[180px]"></div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="relative z-10 flex-1 grid lg:grid-cols-12 min-h-screen">
+
+        <!-- Left Side: Hero Brand Showcase (Desktop Only) -->
+        <div class="hidden lg:flex lg:col-span-5 xl:col-span-5 bg-slate-900/40 border-r border-slate-800/80 p-12 flex-col justify-between relative overflow-hidden">
+
+            <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+
+            <!-- Top Header Logo -->
+            <div class="relative z-10 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-zenith-600 via-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-zenith-500/20 group-hover:scale-105 transition-transform">
+                        Z
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1">
+                            ZENITH<span class="text-zenith-400">PAY</span>
+                        </span>
+                        <span class="text-[9px] tracking-widest text-slate-400 font-semibold uppercase -mt-1">Borderless Accounts</span>
+                    </div>
+                </a>
+
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zenith-500/10 border border-zenith-500/20 text-xs text-zenith-300 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-zenith-400 animate-ping"></span>
+                    <span>Onboarding Open</span>
+                </div>
+            </div>
+
+            <!-- Middle Value Prop -->
+            <div class="relative z-10 space-y-8 my-auto py-12">
+
+                <div class="glass-panel p-6 rounded-3xl border border-slate-700/60 shadow-2xl space-y-4 glow-emerald animate-float">
+                    <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Open in Under 3 Minutes</h4>
+                            <p class="text-[11px] text-slate-400">No paperwork &bull; No branch visit</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        One account, every currency. Hold, spend, and yield USD, EUR, GBP and more with real check-digit IBANs.
+                    </p>
+                </div>
+
+                <!-- Onboarding Steps -->
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Create your profile</p>
+                            <p class="text-[11px] text-slate-400">Name, email, and a strong password.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Verify your identity</p>
+                            <p class="text-[11px] text-slate-400">A quick passkey or 2FA confirmation.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-zenith-500/20 text-zenith-400 flex items-center justify-center text-xs font-bold shrink-0">3</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Fund and go global</p>
+                            <p class="text-[11px] text-slate-400">Open accounts in any supported country.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Row -->
+                <div class="grid grid-cols-2 gap-3 text-[11px]">
+                    <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-check text-zenith-400"></i>
+                        <span class="text-slate-300 font-medium">FDIC Protected</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-check text-zenith-400"></i>
+                        <span class="text-slate-300 font-medium">SOC2 Certified</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Left Footer -->
+            <div class="relative z-10 border-t border-slate-800/80 pt-6 flex items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 Zenith Pay Inc.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-slate-300 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-slate-300 transition-colors">Security</a>
+                    <a href="#" class="hover:text-slate-300 transition-colors">Compliance</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Registration Panel -->
+        <div class="lg:col-span-7 xl:col-span-7 p-6 sm:p-12 lg:p-16 flex flex-col justify-between relative">
+
+            <!-- Top Right Bar -->
+            <div class="flex items-center justify-between mb-8">                                <a href="index.html" class="flex lg:hidden items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-zenith-500 flex items-center justify-center text-slate-950 font-black text-sm">Z</div>
+                                    <span class="text-base font-bold text-white tracking-tight">ZENITH<span class="text-zenith-400">PAY</span></span>
+                                </a>
+
+                                <a href="dashboard.html" class="hidden lg:inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-xs font-semibold text-slate-200 hover:bg-slate-800 hover:text-white transition-all">
+                                    <i class="fa-solid fa-gauge-high text-[10px]"></i>
+                                    Dashboard
+                                </a>
+
+                                <div class="ml-auto flex items-center gap-4">
+                    <span class="text-xs text-slate-400 hidden sm:inline">Already have an account?</span>
+                    <a href="login.html" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-zenith-400 hover:text-zenith-300 hover:bg-slate-800 transition-all">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Registration Card Window -->
+            <div class="max-w-md mx-auto w-full space-y-8 my-auto">
+
+                <div class="text-center sm:text-left space-y-2">
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight">Open Your Account</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Join millions managing borderless money in under 3 minutes.</p>
+                </div>
+
+                <form onsubmit="handleRegister(event)" class="space-y-4 text-xs">
+
+                    <!-- Full Name -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Full Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <input type="text" id="reg-name" required minlength="2" maxlength="120" placeholder="Alex Vance" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <input type="email" id="reg-email" required placeholder="name@company.com" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                        </div>
+                    </div>
+
+                    <!-- Account Type -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Account Type</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <select id="reg-type" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white focus:outline-none focus:border-zenith-500 font-medium appearance-none">
+                                <option>Personal Borderless Account</option>
+                                <option>Business &amp; Enterprise Account</option>
+                                <option>Freelancer &amp; Contractor Account</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Create Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input type="password" id="reg-password" required minlength="8" placeholder="At least 8 characters" class="w-full pl-10 pr-10 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                            <button type="button" onclick="toggleRegPassword('reg-password', 'eye-reg')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300">
+                                <i class="fa-solid fa-eye" id="eye-reg"></i>
+                            </button>
+                        </div>
+                        <!-- Strength Meter -->
+                        <div class="flex items-center gap-2 pt-1">
+                            <div class="flex-1 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                                <div id="pw-strength-bar" class="h-full w-0 bg-rose-500 transition-all duration-300"></div>
+                            </div>
+                            <span id="pw-strength-label" class="text-[10px] font-bold text-slate-500 w-16 text-right">Weak</span>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Confirm Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input type="password" id="reg-password-confirm" required minlength="8" placeholder="Re-enter your password" class="w-full pl-10 pr-10 py-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 focus:ring-1 focus:ring-zenith-500 transition-all font-medium">
+                            <button type="button" onclick="toggleRegPassword('reg-password-confirm', 'eye-reg2')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300">
+                                <i class="fa-solid fa-eye" id="eye-reg2"></i>
+                            </button>
+                        </div>
+                        <p id="pw-match" class="text-[10px] text-slate-500 hidden"></p>
+                    </div>
+
+                    <!-- Account PIN -->
+                    <div class="space-y-1.5 rounded-xl border border-zenith-500/20 bg-zenith-500/5 p-4">
+                        <div>
+                            <label for="reg-pin" class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Set your 6-digit account PIN</label>
+                            <p class="mt-1 text-[10px] text-slate-400">Required before opening accounts. Keep it private.</p>
+                        </div>
+                        <input type="password" id="reg-pin" required minlength="6" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="new-password" placeholder="6 digits" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 font-medium">
+                        <label for="reg-pin-confirm" class="block font-bold text-slate-300 uppercase tracking-wider text-[10px]">Confirm PIN</label>
+                        <input type="password" id="reg-pin-confirm" required minlength="6" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="new-password" placeholder="Re-enter your PIN" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-zenith-500 font-medium">
+                    </div>
+
+                    <!-- Terms -->
+                    <label class="flex items-start gap-2.5 cursor-pointer pt-1">
+                        <input type="checkbox" id="reg-terms" required class="mt-0.5 w-4 h-4 rounded bg-slate-900 border-slate-800 text-zenith-500 focus:ring-zenith-500 focus:ring-offset-slate-950">
+                        <span class="text-xs text-slate-300 font-medium leading-relaxed">
+                            I agree to the <a href="#" class="text-zenith-400 hover:underline">Terms of Service</a> and <a href="#" class="text-zenith-400 hover:underline">Privacy Policy</a>.
+                        </span>
+                    </label>
+
+                    <!-- Submit -->
+                    <button type="submit" id="btn-register" class="w-full py-4 rounded-xl bg-gradient-to-r from-zenith-500 to-zenith-600 text-slate-950 font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-zenith-500/20 flex items-center justify-center gap-2 group">
+                        <span>Create Free Account</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-800"></div>
+                    <span class="flex-shrink mx-4 text-[10px] font-bold uppercase text-slate-500 tracking-wider">Or Sign Up With</span>
+                    <div class="flex-grow border-t border-slate-800"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="triggerQuickAuth('Google Workspace')" class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-200 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-brands fa-google text-rose-400"></i>
+                        <span>Google</span>
+                    </button>
+                    <button onclick="triggerQuickAuth('Apple ID')" class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-200 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-brands fa-apple text-slate-100 text-sm"></i>
+                        <span>Apple</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Bottom Footer -->
+            <div class="mt-8 border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-slate-500">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-zenith-400"></i>
+                    <span>Your data is encrypted in transit and at rest.</span>
+                </div>
+                <a href="index.html" class="hover:text-slate-300 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Homepage
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Live Toast Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        function toggleRegPassword(fieldId, eyeId) {
+            const field = document.getElementById(fieldId);
+            const eye = document.getElementById(eyeId);
+            if (field.type === 'password') {
+                field.type = 'text';
+                eye.className = 'fa-solid fa-eye-slash';
+            } else {
+                field.type = 'password';
+                eye.className = 'fa-solid fa-eye';
+            }
+        }
+
+        /* Simple strength heuristic: length + character variety. */
+        function scorePassword(value) {
+            let score = 0;
+            if (value.length >= 8) score++;
+            if (value.length >= 12) score++;
+            if (/[A-Z]/.test(value) && /[a-z]/.test(value)) score++;
+            if (/\d/.test(value)) score++;
+            if (/[^A-Za-z0-9]/.test(value)) score++;
+            return Math.min(score, 4);
+        }
+
+        const pwField = document.getElementById('reg-password');
+        if (pwField) {
+            pwField.addEventListener('input', () => {
+                const score = scorePassword(pwField.value);
+                const bar = document.getElementById('pw-strength-bar');
+                const label = document.getElementById('pw-strength-label');
+                const widths = ['0%', '25%', '50%', '75%', '100%'];
+                const colours = ['bg-rose-500', 'bg-rose-500', 'bg-amber-500', 'bg-zenith-500', 'bg-emerald-400'];
+                const names = ['Weak', 'Weak', 'Fair', 'Strong', 'Excellent'];
+                bar.className = `h-full transition-all duration-300 ${colours[score]}`;
+                bar.style.width = widths[score];
+                label.innerText = names[score];
+                label.className = `text-[10px] font-bold w-16 text-right ${score >= 3 ? 'text-zenith-400' : 'text-slate-500'}`;
+            });
+        }
+
+        /* Confirm-password live check */
+        const confirmField = document.getElementById('reg-password-confirm');
+        if (confirmField && pwField) {
+            confirmField.addEventListener('input', () => {
+                const note = document.getElementById('pw-match');
+                if (!confirmField.value) {
+                    note.classList.add('hidden');
+                    return;
+                }
+                note.classList.remove('hidden');
+                const matches = confirmField.value === pwField.value;
+                note.innerText = matches ? 'Passwords match' : 'Passwords do not match';
+                note.className = `text-[10px] ${matches ? 'text-zenith-400' : 'text-rose-400'}`;
+            });
+        }
+
+        /* Where a newly registered member lands. Relative so it also works
+           when the page is opened straight from the filesystem. */
+        function postAuthTarget() {
+            return "dashboard.html";
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = pwField.value;
+            const confirm = confirmField.value;
+            const pin = document.getElementById('reg-pin').value;
+            const confirmPin = document.getElementById('reg-pin-confirm').value;
+
+            if (password !== confirm) {
+                triggerToast('Passwords do not match.', 'fa-triangle-exclamation', 'text-rose-400');
+                return;
+            }
+            if (!/^[0-9]{6}$/.test(pin) || pin !== confirmPin) {
+                triggerToast('Enter and confirm the same 6-digit PIN.', 'fa-triangle-exclamation', 'text-rose-400');
+                return;
+            }
+
+            const btn = document.getElementById('btn-register');
+            const original = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Creating your account...`;
+
+            try {
+                // Real sign-up: the API creates the user, signs them in with a
+                // session cookie, and we continue straight to the dashboard.
+                const res = await fetch("/api/auth/register", {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password, pin, confirm_pin: confirmPin }),
+                });
+                let body = null;
+                try { body = await res.json(); } catch (_) { body = null; }
+                if (!res.ok) {
+                    const message = (body && body.error) ? body.error : `Sign-up failed (HTTP ${res.status}).`;
+                    triggerToast(message, 'fa-triangle-exclamation', 'text-rose-400');
+                    return;
+                }
+                triggerToast(`Welcome, ${(body && body.user && body.user.name ? body.user.name.split(' ')[0] : name.split(' ')[0]) || 'there'}! Account created.`);
+                setTimeout(() => {
+                    window.location.href = postAuthTarget();
+                }, 1200);
+            } catch (err) {
+                console.error("[register]", err);
+                triggerToast("Could not reach the server. Check your connection.", 'fa-triangle-exclamation', 'text-rose-400');
+            } finally {
+                btn.innerHTML = original;
+            }
+        }
+
+        function triggerQuickAuth(provider) {
+            triggerToast(`Connecting via ${provider}... Redirecting...`);
+        }
+
+        function triggerToast(message, icon = 'fa-circle-check', iconColour = 'text-zenith-400') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = "glass-panel px-4 py-3 rounded-2xl border border-zenith-500/40 text-xs font-bold text-white shadow-2xl flex items-center gap-3 animate-bounce pointer-events-auto";
+            toast.innerHTML = `<i class="fa-solid ${icon} ${iconColour} text-sm"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

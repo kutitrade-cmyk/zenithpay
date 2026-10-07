@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send | Zenith Pay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        zenith: {
+                            50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7',
+                            400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857',
+                            800: '#065f46', 900: '#064e3b', 950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.80);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.60);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-zenith-500 selection:text-slate-950 min-h-screen">
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-20 left-10 w-[500px] h-[500px] bg-cyan-500/8 rounded-full blur-[140px]"></div>
+        <div class="absolute bottom-0 right-10 w-[600px] h-[600px] bg-zenith-500/8 rounded-full blur-[160px]"></div>
+    </div>
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center gap-2 group shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-zenith-600 via-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-zenith-500/20 group-hover:scale-105 transition-transform">Z</div>
+                    <span class="text-lg font-extrabold tracking-tight text-white hidden sm:inline">ZENITH<span class="text-zenith-400">PAY</span></span>
+                </a>
+                <nav class="hidden md:flex items-center gap-1 text-xs font-semibold">
+                    <a href="dashboard.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Dashboard</a>
+                    <a href="transfer.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Transfer</a>
+                    <a href="send.html" class="px-3 py-2 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Send</a>
+                    <a href="bills.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Bills</a>
+                    <a href="scheduled.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Scheduled</a>
+                    <a href="activity.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Activity</a>
+                </nav>
+                <div class="flex items-center gap-2">
+                    <div id="user-chip" class="hidden lg:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-slate-900/80 border border-slate-800">
+                        <div id="user-avatar" class="w-7 h-7 rounded-full bg-gradient-to-br from-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-bold text-xs shadow-md">M</div>
+                        <div class="text-left leading-tight">
+                            <p id="user-name" class="text-xs font-bold text-white">Member</p>
+                            <p id="user-email" class="text-[9px] text-slate-400 font-medium">member@zenith.pay</p>
+                        </div>
+                    </div>
+                    <button id="btn-signout" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-200 hover:bg-slate-800 hover:text-white transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket text-[10px]"></i><span class="hidden sm:inline">Sign Out</span>
+                    </button>
+                </div>
+            </div>
+            <nav class="md:hidden flex items-center gap-1 text-xs font-semibold overflow-x-auto hide-scrollbar pb-2">
+                <a href="dashboard.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Dashboard</a>
+                <a href="transfer.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Transfer</a>
+                <a href="send.html" class="px-3 py-1.5 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 whitespace-nowrap">Send</a>
+                <a href="bills.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Bills</a>
+                <a href="scheduled.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Scheduled</a>
+                <a href="activity.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Activity</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 space-y-6">
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Send to Contact</h1>
+            <p class="text-sm text-slate-400 mt-1">Pay another Zenith Pay member by email or account number.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            <section class="lg:col-span-2 glass-panel rounded-3xl border border-slate-800/80 p-6">
+                <form id="form-send" class="space-y-4 text-xs" onsubmit="return handleSend(event)">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">From</label>
+                        <select id="send-source" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-cyan-500 text-sm">
+                            <option value="">Select account</option>
+                        </select>
+                        <p id="send-source-hint" class="text-[10px] text-slate-500 mt-1"></p>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">Recipient</label>
+                        <input type="text" id="send-recipient" placeholder="name@company.com or account number" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm">
+                        <p class="text-[10px] text-slate-500 mt-1">Both members must hold the same currency for a P2P payment.</p>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">Amount</label>
+                        <input type="number" id="send-amount" step="0.01" min="0.01" placeholder="0.00" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">Description</label>
+                        <input type="text" id="send-desc" placeholder="What's it for?" maxlength="200" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 text-sm">
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 text-slate-950 font-bold text-sm hover:brightness-110 transition-all shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-paper-plane text-xs mr-1"></i> Send Payment
+                    </button>
+                </form>
+            </section>
+
+            <section class="glass-panel rounded-3xl border border-slate-800/80 p-5">
+                <h2 class="text-sm font-bold text-white uppercase tracking-widest mb-3">How it works</h2>
+                <ul class="space-y-3 text-xs text-slate-400">
+                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-cyan-400 mt-0.5"></i> Enter the recipient's email or their Zenith Pay account number.</li>
+                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-cyan-400 mt-0.5"></i> Both sides of the payment are recorded instantly, linked by a group id.</li>
+                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-cyan-400 mt-0.5"></i> You'll see it under <a href="activity.html" class="text-cyan-400 font-semibold hover:underline">Activity</a> right away.</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+    /* ============================================================
+       Zenith Pay — Send to Contact page
+       ============================================================ */
+
+    function fillSourceSelect() {
+        const sel = document.getElementById("send-source");
+        if (!sel) return;
+        sel.innerHTML = assetAccountOptions(requestedSourceId());
+        updateSourceHint();
+    }
+
+    function updateSourceHint() {
+        const hint = document.getElementById("send-source-hint");
+        const sel = document.getElementById("send-source");
+        if (!hint || !sel || !sel.value) { if (hint) hint.textContent = ""; return; }
+        const acct = state.accounts.find((a) => String(a.id) === sel.value);
+        hint.textContent = acct
+            ? `Available: ${centsToCurrency(acct.balance_cents, acct.currency)}`
+            : "";
+    }
+
+    async function handleSend(e) {
+        e.preventDefault();
+        const source = document.getElementById("send-source").value;
+        const recipient = document.getElementById("send-recipient").value.trim();
+        const amount = document.getElementById("send-amount").value;
+        const desc = document.getElementById("send-desc").value.trim();
+
+        if (!source) { triggerToast("Select a source account", "error"); return false; }
+        if (!recipient) { triggerToast("Enter recipient email or account number", "error"); return false; }
+        if (!amount || isNaN(amount) || Number(amount) <= 0) { triggerToast("Enter a valid amount", "error"); return false; }
+
+        const cents = Math.round(Number(amount) * 100);
+        const data = await apiFetch("/p2p", {
+            method: "POST",
+            body: JSON.stringify({
+                source_account_id: Number(source),
+                recipient: recipient,
+                amount_cents: cents,
+                description: desc || "P2P payment",
+                category: "p2p",
+            }),
+        });
+        if (!data) return false;
+        triggerToast(`Sent ${centsToCurrency(cents)} to ${recipient}`, "success");
+        document.getElementById("send-recipient").value = "";
+        document.getElementById("send-amount").value = "";
+        document.getElementById("send-desc").value = "";
+        await loadAccounts();
+        fillSourceSelect();
+        return false;
+    }
+
+    document.getElementById("send-source").addEventListener("change", updateSourceHint);
+
+    (async function boot() {
+        await safeRun("Session", loadUser);
+        await safeRun("Accounts", async () => {
+            await loadAccounts();
+            fillSourceSelect();
+        });
+    })();
+    </script>
+</body>
+</html>

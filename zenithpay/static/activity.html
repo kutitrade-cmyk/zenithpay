@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity | Zenith Pay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: {
+                        zenith: {
+                            50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7',
+                            400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857',
+                            800: '#065f46', 900: '#064e3b', 950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.80);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.60);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-zenith-500 selection:text-slate-950 min-h-screen">
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-20 left-10 w-[500px] h-[500px] bg-slate-500/8 rounded-full blur-[140px]"></div>
+        <div class="absolute bottom-0 right-10 w-[600px] h-[600px] bg-zenith-500/8 rounded-full blur-[160px]"></div>
+    </div>
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center gap-2 group shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-zenith-600 via-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-zenith-500/20 group-hover:scale-105 transition-transform">Z</div>
+                    <span class="text-lg font-extrabold tracking-tight text-white hidden sm:inline">ZENITH<span class="text-zenith-400">PAY</span></span>
+                </a>
+                <nav class="hidden md:flex items-center gap-1 text-xs font-semibold">
+                    <a href="dashboard.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Dashboard</a>
+                    <a href="transfer.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Transfer</a>
+                    <a href="send.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Send</a>
+                    <a href="bills.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Bills</a>
+                    <a href="scheduled.html" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">Scheduled</a>
+                    <a href="activity.html" class="px-3 py-2 rounded-lg bg-zenith-500/15 text-zenith-300 border border-zenith-500/30">Activity</a>
+                </nav>
+                <div class="flex items-center gap-2">
+                    <div id="user-chip" class="hidden lg:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-slate-900/80 border border-slate-800">
+                        <div id="user-avatar" class="w-7 h-7 rounded-full bg-gradient-to-br from-zenith-500 to-cyan-400 flex items-center justify-center text-slate-950 font-bold text-xs shadow-md">M</div>
+                        <div class="text-left leading-tight">
+                            <p id="user-name" class="text-xs font-bold text-white">Member</p>
+                            <p id="user-email" class="text-[9px] text-slate-400 font-medium">member@zenith.pay</p>
+                        </div>
+                    </div>
+                    <button id="btn-signout" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-200 hover:bg-slate-800 hover:text-white transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket text-[10px]"></i><span class="hidden sm:inline">Sign Out</span>
+                    </button>
+                </div>
+            </div>
+            <nav class="md:hidden flex items-center gap-1 text-xs font-semibold overflow-x-auto hide-scrollbar pb-2">
+                <a href="dashboard.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Dashboard</a>
+                <a href="transfer.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Transfer</a>
+                <a href="send.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Send</a>
+                <a href="bills.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Bills</a>
+                <a href="scheduled.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Scheduled</a>
+                <a href="activity.html" class="px-3 py-1.5 rounded-lg bg-zenith-500/15 text-zenith-300 border border-zenith-500/30 whitespace-nowrap">Activity</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 space-y-6">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Activity</h1>
+                <p class="text-sm text-slate-400 mt-1">Every movement on your accounts, newest first.</p>
+            </div>
+            <div class="w-full sm:w-64">
+                <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">Account</label>
+                <select id="activity-account" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-zenith-500 text-sm">
+                    <option value="">All accounts</option>
+                </select>
+            </div>
+        </div>
+
+        <section class="glass-panel rounded-3xl border border-slate-800/80 px-6 py-2">
+            <div id="activity-count" class="py-3 text-[11px] text-slate-400 font-medium"></div>
+            <div id="activity-list" class="divide-y divide-slate-800/60">
+                <div class="py-4 text-center text-slate-400 text-sm">Loading activity…</div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <dialog id="receipt-dialog" class="receipt-dialog"><form method="dialog"><button class="button button-secondary receipt-close">Close</button></form><div id="receipt-content"></div><button id="receipt-print" class="button button-primary" type="button">Print receipt</button></dialog>
+
+    <script>
+    /* ============================================================
+       Zenith Pay — Activity page (full history)
+       ============================================================ */
+
+    /* Entries are cached per account id so switching the filter is instant
+       and switching back does not refetch. */
+    const historyCache = new Map();
+
+    function fillAccountFilter() {
+        const sel = document.getElementById("activity-account");
+        if (!sel) return;
+        const current = sel.value;
+        sel.innerHTML = '<option value="">All accounts</option>' +
+            state.accounts.map((a) =>
+                `<option value="${a.id}">${esc(a.nickname || a.type)} · ${a.currency} (${centsToCurrency(a.balance_cents, a.currency)})</option>`
+            ).join("");
+        if ([...sel.options].some((o) => o.value === current)) sel.value = current;
+    }
+
+    async function loadActivity() {
+        const list = document.getElementById("activity-list");
+        const count = document.getElementById("activity-count");
+        if (!list) return;
+        if (state.accounts.length === 0) {
+            list.innerHTML = `<div class="py-6 text-center text-slate-400 text-sm">No accounts yet — open one from the Dashboard.</div>`;
+            if (count) count.textContent = "";
+            return;
+        }
+
+        const filter = document.getElementById("activity-account").value;
+        const targets = filter
+            ? state.accounts.filter((a) => String(a.id) === filter)
+            : state.accounts;
+
+        // Fetch (or recall) history for the selected accounts.
+        const fresh = targets.filter((a) => !historyCache.has(a.id));
+        if (fresh.length > 0) {
+            const results = await Promise.allSettled(
+                fresh.map((a) => apiFetch(`/accounts/${a.id}/history`))
+            );
+            results.forEach((result, i) => {
+                const account = fresh[i];
+                if (result.status === "fulfilled" && result.value && result.value.transactions) {
+                    historyCache.set(account.id, result.value.transactions);
+                } else {
+                    historyCache.set(account.id, null); // failed — don't retry forever
+                }
+            });
+        }
+
+        const entries = [];
+        targets.forEach((account) => {
+            const txs = historyCache.get(account.id);
+            if (!txs) return;
+            txs.forEach((t) => entries.push({ ...t, account }));
+        });
+        entries.sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+
+        if (count) {
+            count.textContent = entries.length === 0
+                ? ""
+                : `${entries.length} transaction${entries.length > 1 ? "s" : ""} (latest 50 per account)`;
+        }
+
+        if (entries.length === 0) {
+            list.innerHTML = `<div class="py-6 text-center text-slate-400 text-sm">No transactions${filter ? " on this account" : " yet"}.</div>`;
+            return;
+        }
+
+        list.innerHTML = entries.map((t) => {
+            const isCredit = t.direction === "credit";
+            const sign = isCredit ? "+" : "−";
+            return `
+                <div class="flex items-center justify-between gap-3 py-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                            isCredit ? "bg-zenith-500/10 text-zenith-400" : "bg-rose-500/10 text-rose-400"
+                        }">
+                            <i class="fa-solid ${isCredit ? "fa-arrow-down" : "fa-arrow-up"} text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-white truncate">${esc(t.description)}</p>
+                            <p class="text-[10px] text-slate-400 truncate">
+                                ${esc(t.account ? (t.account.nickname || "") : "")}
+                                ${t.counterparty ? " · " + esc(t.counterparty) : ""}
+                                ${t.category ? " · " + esc(t.category) : ""}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <p class="text-sm font-bold font-mono ${isCredit ? "text-zenith-400" : "text-rose-400"}">
+                            ${sign}${centsToCurrency(Math.abs(t.amount_cents), t.account ? t.account.currency : "USD")}
+                        </p>
+                        <p class="text-[10px] text-slate-500">
+                            ${formatDateTime(t.created_at)} · bal ${centsToCurrency(t.balance_after_cents, t.account ? t.account.currency : "USD")}
+                        </p>
+                        <button type="button" class="receipt-button" data-receipt="${t.id}">Receipt ${esc(t.receipt_number)}</button>
+                    </div>
+                </div>`;
+        }).join("");
+    }
+
+    document.getElementById("activity-account").addEventListener("change", () => {
+        safeRun("Activity", loadActivity);
+    });
+
+    document.getElementById("activity-list").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-receipt]");
+        if (button) showReceipt(button.dataset.receipt);
+    });
+
+    document.getElementById("receipt-print").addEventListener("click", () => window.print());
+
+    async function showReceipt(id) {
+        const result = await apiFetch(`/transactions/${id}/receipt`);
+        if (!result) return;
+        const receipt = result.receipt;
+        document.getElementById("receipt-content").innerHTML =
+            `<p class="eyebrow">ZENITH PAY · TRANSACTION RECEIPT</p><h2>${esc(receipt.receipt_number)}</h2><p><strong>${esc(receipt.description)}</strong></p><p>${esc(receipt.direction.toUpperCase())} · ${centsToCurrency(receipt.amount_cents, receipt.account.currency)}</p><p>${esc(receipt.account.nickname)} · account ending ${esc(receipt.account.account_number_last4)}</p><p>Balance after: ${centsToCurrency(receipt.balance_after_cents, receipt.account.currency)}</p>${receipt.receipt_details && receipt.receipt_details.price_usd ? `<p>Execution reference price: $${esc(receipt.receipt_details.price_usd)} USD</p>` : ""}${receipt.receipt_details && receipt.receipt_details.admin_email ? `<p>Admin adjustment by ${esc(receipt.receipt_details.admin_email)}</p>` : ""}<p>${esc(formatDateTime(receipt.created_at))}</p>`;
+        document.getElementById("receipt-dialog").showModal();
+    }
+
+    (async function boot() {
+        await safeRun("Session", loadUser);
+        await safeRun("Accounts", async () => {
+            await loadAccounts();
+            fillAccountFilter();
+        });
+        await safeRun("Activity", loadActivity);
+    })();
+    </script>
+</body>
+</html>
